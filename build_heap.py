@@ -1,13 +1,36 @@
+# 221RDB041 Ēriks Lijurovs 16. grupa
 # python3
+import os
 
+def heapsort(data, n, i, swaps):
+    root = i
+    left = 2*i+1
+    right = 2*i+2
 
+    if left < n and data[left] <= data[i]:
+        root = left
+
+    if right < n and data[right] <= data[root]:
+        root = right
+
+    if root != i:
+        (data[i], data[root]) = (data[root], data[i])
+        swaps.append((i, root))
+        heapsort(data, n, root, swaps)
+  
 def build_heap(data):
+    n = len(data)
     swaps = []
-    # TODO: Creat heap and heap sort
+    # TODO: Create heap and heap sort
+  
+    for i in range(n//2-1, -1, -1):
+        heapsort(data, n, i, swaps)
+
+    return swaps
+
     # try to achieve  O(n) and not O(n2)
 
 
-    return swaps
 
 
 def main():
@@ -15,13 +38,28 @@ def main():
     # TODO : add input and corresponding checks
     # add another input for I or F 
     # first two tests are from keyboard, third test is from a file
+    choice = input()
 
+    if choice.__contains__('F'):
+        test = input()
+        
+        if test.__contains__('a'):
+            return
+        else:
+            gh_bypass = os.path.join(os.getcwd(), 'tests', test)
+            with open(gh_bypass) as file:
+                n = int(file.readline())
+                data = list(map(int, file.readline().split(" ")))
+            file.close()
+    elif choice.__contains__('I'):
+        # input from keyboard
+        n = int(input())
+        data = list(map(int, input().split()))
+    else:
+        print("Please enter I or F!")
+        return
 
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
-
-    # checks if lenght of data is the same as the said lenght
+    # checks if length of data is the same as the said length
     assert len(data) == n
 
     # calls function to assess the data 
@@ -34,8 +72,8 @@ def main():
 
     # output all swaps
     print(len(swaps))
-    for i, j in swaps:
-        print(i, j)
+    for i, j in swaps:  #jābūt for i,j in data
+        print(i, j)    #jābūt print(i,j)
 
 
 if __name__ == "__main__":
