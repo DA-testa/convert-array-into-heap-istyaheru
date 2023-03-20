@@ -2,20 +2,21 @@
 # python3
 import os
 
-def heapsort(data, n, i):
+def heapsort(data, n, i, swaps):
     root = i
-    left = 2 * i + 1
-    right = 2 * i + 2
+    left = 2*i+1
+    right = 2*i+2
 
-    if left < n and data[i] <= data[left]:
+    if left < n and data[left] <= data[i]:
         root = left
 
-    if right < n and data[root] <= data[right]:
+    if right < n and data[right] <= data[root]:
         root = right
 
     if root != i:
         (data[i], data[root]) = (data[root], data[i])
-        heapsort(data, n, root)
+        swaps.append((i, root))
+        heapsort(data, n, root, swaps)
   
 def build_heap(data):
     n = len(data)
@@ -23,15 +24,9 @@ def build_heap(data):
     # TODO: Create heap and heap sort
   
     for i in range(n//2-1, -1, -1):
-        heapsort(data, n, i)
-
-    for i in range(n-1, 0, -1):
-        (data[i], data[0]) = (data[0], data[i])
-        swaps.append((data[i], data[0]))
-        heapsort(data, i, 0)
+        heapsort(data, n, i, swaps)
 
     return swaps
-    
 
     # try to achieve  O(n) and not O(n2)
 
